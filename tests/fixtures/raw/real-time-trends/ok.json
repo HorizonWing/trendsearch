@@ -1,0 +1,20 @@
+{
+  "storySummaries": {
+    "trendingStories": [
+      {
+        "id": "story-1",
+        "title": "Oscars 2024",
+        "entityNames": ["Oscars", "Academy Awards"],
+        "articles": [
+          {
+            "title": "Oscars winners announced",
+            "source": "Example Media",
+            "url": "https://example.com/oscars",
+            "timeAgo": "30m ago",
+            "snippet": "Highlights from the show."
+          }
+        ]
+      }
+    ]
+  }
+}

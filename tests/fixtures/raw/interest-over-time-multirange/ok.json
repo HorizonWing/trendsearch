@@ -1,0 +1,23 @@
+{
+  "default": {
+    "timelineData": [
+      {
+        "time": "1704067200",
+        "formattedTime": "Jan 1 - Jan 31, 2024",
+        "columnData": [
+          {
+            "formattedTime": "Jan 2024",
+            "value": 72,
+            "formattedValue": "72"
+          },
+          {
+            "formattedTime": "Jan 2024",
+            "value": 61,
+            "formattedValue": "61"
+          }
+        ]
+      }
+    ],
+    "averages": [72, 61]
+  }
+}

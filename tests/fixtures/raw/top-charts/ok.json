@@ -1,0 +1,20 @@
+{
+  "topCharts": [
+    {
+      "date": "2024",
+      "formattedDate": "2024",
+      "listItems": [
+        {
+          "title": "ChatGPT",
+          "value": 100,
+          "formattedValue": "100"
+        },
+        {
+          "title": "TypeScript",
+          "value": 88,
+          "formattedValue": "88"
+        }
+      ]
+    }
+  ]
+}

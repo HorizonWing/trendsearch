@@ -1,0 +1,26 @@
+{
+  "default": {
+    "trendingSearchesDays": [
+      {
+        "date": "20240201",
+        "formattedDate": "Thursday, February 1, 2024",
+        "trendingSearches": [
+          {
+            "title": { "query": "super bowl" },
+            "formattedTraffic": "500K+",
+            "relatedQueries": ["super bowl date", "super bowl teams"],
+            "articles": [
+              {
+                "title": "Super Bowl approaches",
+                "source": "Example News",
+                "url": "https://example.com/super-bowl",
+                "timeAgo": "2h ago",
+                "snippet": "Fans prepare for the game."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

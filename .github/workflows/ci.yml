@@ -1,0 +1,128 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Quality (Node 20)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.9"
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-node-20-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-20-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Full quality gate
+        run: bun run check:all
+
+  compat:
+    name: Compat (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: ["20", "22", "24"]
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.9"
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-node-${{ matrix.node-version }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-${{ matrix.node-version }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test
+        run: bun run test
+
+      - name: Build
+        run: bun run build
+
+      - name: Package contract checks
+        run: bun run check:package
+
+  changeset-required:
+    name: Changeset Required (PRs)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Validate release intent
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          changed_files="$(git diff --name-only "$BASE_SHA" "$HEAD_SHA")"
+          echo "Changed files:"
+          echo "$changed_files"
+
+          impactful_files="$(
+            echo "$changed_files" |
+              grep -E '^(src/|package\.json$|tsconfig\.json$|tsconfig\.typecheck\.json$|tsdown\.config\.ts$)' ||
+              true
+          )"
+
+          if [ -z "$impactful_files" ]; then
+            echo "No package-impacting file changes detected."
+            exit 0
+          fi
+
+          changeset_files="$(
+            echo "$changed_files" |
+              grep -E '^\.changeset/[^/]+\.md$' |
+              grep -v '^\.changeset/README\.md$' ||
+              true
+          )"
+
+          if [ -z "$changeset_files" ]; then
+            echo "::error title=Missing changeset::This PR changes package-impacting files but has no .changeset/*.md entry. Run 'bun run changeset'."
+            echo "Impactful files:"
+            echo "$impactful_files"
+            exit 1
+          fi
+
+          echo "Changeset files found:"
+          echo "$changeset_files"

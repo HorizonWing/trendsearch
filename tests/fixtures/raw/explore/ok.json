@@ -1,0 +1,57 @@
+{
+  "widgets": [
+    {
+      "id": "TIMESERIES",
+      "token": "token-timeseries",
+      "title": "Interest over time",
+      "request": {
+        "time": "today 12-m",
+        "resolution": "WEEK",
+        "requestOptions": {
+          "property": "",
+          "category": 0
+        }
+      }
+    },
+    {
+      "id": "GEO_MAP",
+      "token": "token-geomap",
+      "title": "Interest by region",
+      "request": {
+        "resolution": "REGION",
+        "requestOptions": {
+          "property": "",
+          "category": 0
+        }
+      }
+    },
+    {
+      "id": "RELATED_QUERIES",
+      "token": "token-rq",
+      "title": "Related queries",
+      "request": {
+        "restriction": {
+          "time": "today 12-m"
+        },
+        "requestOptions": {
+          "property": "",
+          "category": 0
+        }
+      }
+    },
+    {
+      "id": "RELATED_TOPICS",
+      "token": "token-rt",
+      "title": "Related topics",
+      "request": {
+        "restriction": {
+          "time": "today 12-m"
+        },
+        "requestOptions": {
+          "property": "",
+          "category": 0
+        }
+      }
+    }
+  ]
+}

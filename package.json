@@ -1,0 +1,103 @@
+{
+  "name": "trendsearch",
+  "version": "0.1.0",
+  "description": "Google Trends API fetching library for Node.js and Bun.",
+  "keywords": [
+    "api",
+    "fetch",
+    "google",
+    "trends",
+    "typescript"
+  ],
+  "homepage": "https://github.com/DobroslavRadosavljevic/trendsearch#readme",
+  "bugs": {
+    "url": "https://github.com/DobroslavRadosavljevic/trendsearch/issues"
+  },
+  "license": "MIT",
+  "author": "Dobroslav Radosavljevic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DobroslavRadosavljevic/trendsearch.git"
+  },
+  "bin": {
+    "trendsearch": "./bin/trendsearch.mjs"
+  },
+  "files": [
+    "dist",
+    "bin"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs",
+      "require": null,
+      "default": "./dist/index.mjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "cli": "bun run ./src/cli/main.ts",
+    "test": "bun run test:all",
+    "test:unit": "bun test ./tests/unit",
+    "test:cli": "bun test ./tests/cli",
+    "test:contracts": "bun test ./tests/contracts",
+    "test:live": "TRENDSEARCH_LIVE=1 bun test ./tests/live",
+    "test:all": "bun run test:unit && bun run test:cli && bun run test:contracts",
+    "fixtures:record": "bun ./scripts/record-fixtures.ts",
+    "lint": "bun ultracite check",
+    "format": "bun ultracite fix",
+    "typecheck": "tsc --project tsconfig.typecheck.json",
+    "check:pack": "npm pack --dry-run",
+    "check:package": "bunx --bun publint && bunx --bun @arethetypeswrong/cli --pack --profile esm-only .",
+    "test:consumer": "bun ./scripts/consumer-smoke.ts",
+    "check:all": "bun run lint && bun run typecheck && bun run test:all && bun run build && bun run check:pack && bun run check:package && bun run test:consumer",
+    "changeset": "changeset",
+    "release:status": "changeset status --verbose",
+    "version-packages": "changeset version",
+    "release": "changeset publish",
+    "release:ci": "if [ \"${NPM_PUBLISH_ENABLED:-false}\" = \"true\" ]; then bun run release; else echo \"Publish skipped: set GitHub repository variable NPM_PUBLISH_ENABLED=true to enable npm publishing.\"; fi",
+    "prepare": "husky",
+    "prepublishOnly": "bun run check:all"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.0.1",
+    "commander": "^14.0.3",
+    "conf": "^15.1.0",
+    "p-queue": "^9.1.0",
+    "p-retry": "^7.1.1",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@changesets/cli": "^2.29.7",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
+    "@types/bun": "1.3.9",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
+    "publint": "^0.3.15",
+    "tsdown": "^0.20.3",
+    "typescript": "^5.9.3",
+    "ultracite": "7.1.5"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "bun ultracite fix"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "bun ultracite fix"
+    ]
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "bun@1.3.9"
+}

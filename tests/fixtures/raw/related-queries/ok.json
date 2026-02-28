@@ -1,0 +1,28 @@
+{
+  "default": {
+    "rankedList": [
+      {
+        "rankedKeyword": [
+          {
+            "query": "typescript tutorial",
+            "value": 100,
+            "formattedValue": "100",
+            "hasData": true,
+            "link": "/trends/explore?q=typescript%20tutorial"
+          }
+        ]
+      },
+      {
+        "rankedKeyword": [
+          {
+            "query": "typescript 5",
+            "value": 2300,
+            "formattedValue": "Breakout",
+            "hasData": true,
+            "link": "/trends/explore?q=typescript%205"
+          }
+        ]
+      }
+    ]
+  }
+}

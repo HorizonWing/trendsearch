@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "extends": ["./node_modules/ultracite/config/oxlint/core/.oxlintrc.json"],
+  "rules": {
+    // Allow top-level "import type { X }" syntax instead of inline "import { type X }"
+    // This avoids conflicts with no-import-type-side-effects rule
+    "import/consistent-type-specifier-style": "off",
+    "jest/require-hook": "off",
+    "jsdoc/require-param-type": "off",
+    "jsdoc/require-returns-type": "off",
+    "eslint-plugin-jest/require-hook": "off",
+    "eslint/require-await": "off",
+    "eslint/max-statements": "off",
+    "eslint/no-inline-comments": "off",
+    "eslint/class-methods-use-this": "off",
+    "eslint-plugin-jsdoc/require-param-type": "off",
+    "eslint-plugin-jsdoc/require-returns-type": "off",
+    "eslint/sort-keys": "off",
+    "eslint-plugin-promise/avoid-new": "off",
+    "eslint-plugin-import/no-nodejs-modules": "off",
+    "eslint-plugin-import/no-relative-parent-imports": "off",
+    "eslint-plugin-unicorn/no-useless-spread": "off"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "children": [
+    {
+      "id": "US",
+      "name": "United States",
+      "type": "COUNTRY",
+      "children": [
+        {
+          "id": "US-CA",
+          "name": "California",
+          "type": "REGION"
+        }
+      ]
+    }
+  ]
+}

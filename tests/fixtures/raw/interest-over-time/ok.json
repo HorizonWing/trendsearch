@@ -1,0 +1,22 @@
+{
+  "default": {
+    "timelineData": [
+      {
+        "time": "1704067200",
+        "formattedTime": "Jan 1, 2024",
+        "formattedAxisTime": "Jan 1",
+        "value": [76],
+        "hasData": [true],
+        "isPartial": false
+      },
+      {
+        "time": "1704672000",
+        "formattedTime": "Jan 8, 2024",
+        "formattedAxisTime": "Jan 8",
+        "value": [82],
+        "hasData": [true],
+        "isPartial": false
+      }
+    ]
+  }
+}
