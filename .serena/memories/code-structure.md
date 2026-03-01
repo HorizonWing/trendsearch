@@ -1,6 +1,7 @@
 # 代码结构
 
 ## 目录布局
+
 ```
 src/
 ├── index.ts                    # 公开 API 入口点
@@ -74,6 +75,7 @@ tests/
 ```
 
 ## 架构模式
+
 - **客户端模式**: createClient() 工厂，返回 TrendSearchClient
 - **端点函数**: 每个端点是独立函数，接收 context + input + options
 - **Schema 验证**: 使用 Zod 对所有响应进行严格验证

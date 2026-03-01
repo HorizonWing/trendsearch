@@ -49,9 +49,7 @@ export const relatedQueriesEndpoint = async (
   const enrichedRequest = enrichRelatedSearchRequest({
     widgetRequest: widget.request,
     hl: common.hl,
-    geo: typeof request.geo === "string"
-      ? request.geo
-      : request.geo?.[0],
+    geo: typeof request.geo === "string" ? request.geo : request.geo?.[0],
   });
 
   const responseJson = await ctx.requestJson({

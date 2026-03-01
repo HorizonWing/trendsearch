@@ -4,9 +4,7 @@
     "durationMs": 26396,
     "geo": "US",
     "time": "now 7-d",
-    "keywords": [
-      "typescript"
-    ],
+    "keywords": ["typescript"],
     "success": 1,
     "failed": 0,
     "usedCache": false

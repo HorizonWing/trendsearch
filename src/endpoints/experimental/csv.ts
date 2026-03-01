@@ -171,9 +171,7 @@ export const relatedQueriesCsvEndpoint = async (
   const enrichedRequest = enrichRelatedSearchRequest({
     widgetRequest: widget.request,
     hl: common.hl,
-    geo: typeof request.geo === "string"
-      ? request.geo
-      : request.geo?.[0],
+    geo: typeof request.geo === "string" ? request.geo : request.geo?.[0],
   });
 
   const csv = await ctx.requestText({
@@ -219,9 +217,7 @@ export const relatedTopicsCsvEndpoint = async (
   const enrichedRequest = enrichRelatedSearchRequest({
     widgetRequest: widget.request,
     hl: common.hl,
-    geo: typeof request.geo === "string"
-      ? request.geo
-      : request.geo?.[0],
+    geo: typeof request.geo === "string" ? request.geo : request.geo?.[0],
   });
 
   const csv = await ctx.requestText({

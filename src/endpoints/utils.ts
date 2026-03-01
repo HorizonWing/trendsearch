@@ -89,9 +89,7 @@ export const enrichRelatedSearchRequest = (args: {
  * Extracts a two-letter country code from a geo string.
  * Supports formats like "US", "US-CA" (returns "US"), or "" (returns undefined).
  */
-const resolveCountryCode = (
-  geo: string | undefined
-): string | undefined => {
+const resolveCountryCode = (geo: string | undefined): string | undefined => {
   if (!geo || geo.trim().length === 0) {
     return undefined;
   }

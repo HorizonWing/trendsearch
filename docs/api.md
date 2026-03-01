@@ -79,33 +79,33 @@ const client = createClient(config?: CreateClientConfig): TrendSearchClient
 
 ### CreateClientConfig
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `fetch` | `typeof globalThis.fetch` | 全局 `fetch` | 自定义 fetch 实现 |
-| `timeoutMs` | `number` | `15000` | 请求超时时间（毫秒） |
-| `baseUrl` | `string` | `"https://trends.google.com"` | API 基础 URL |
-| `hl` | `string` | `"en-US"` | 界面语言（如 `"zh-CN"`、`"ja"`） |
-| `tz` | `number` | 系统时区偏移 | 时区偏移（分钟，北京时间为 `-480`） |
-| `retries` | `RetryConfig` | 见下方 | 重试配置 |
-| `rateLimit` | `RateLimitConfig` | 见下方 | 速率限制配置 |
-| `userAgent` | `string` | — | 自定义 User-Agent |
-| `cookieStore` | `CookieStore` | — | Cookie 持久化存储 |
-| `proxyHook` | `ProxyHook` | — | 请求代理钩子 |
+| 参数          | 类型                      | 默认值                        | 说明                                |
+| ------------- | ------------------------- | ----------------------------- | ----------------------------------- |
+| `fetch`       | `typeof globalThis.fetch` | 全局 `fetch`                  | 自定义 fetch 实现                   |
+| `timeoutMs`   | `number`                  | `15000`                       | 请求超时时间（毫秒）                |
+| `baseUrl`     | `string`                  | `"https://trends.google.com"` | API 基础 URL                        |
+| `hl`          | `string`                  | `"en-US"`                     | 界面语言（如 `"zh-CN"`、`"ja"`）    |
+| `tz`          | `number`                  | 系统时区偏移                  | 时区偏移（分钟，北京时间为 `-480`） |
+| `retries`     | `RetryConfig`             | 见下方                        | 重试配置                            |
+| `rateLimit`   | `RateLimitConfig`         | 见下方                        | 速率限制配置                        |
+| `userAgent`   | `string`                  | —                             | 自定义 User-Agent                   |
+| `cookieStore` | `CookieStore`             | —                             | Cookie 持久化存储                   |
+| `proxyHook`   | `ProxyHook`               | —                             | 请求代理钩子                        |
 
 ### RetryConfig
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `maxRetries` | `number` | `3` | 最大重试次数 |
-| `baseDelayMs` | `number` | `500` | 初始退避延迟（毫秒） |
-| `maxDelayMs` | `number` | `8000` | 最大退避延迟（毫秒） |
+| 参数          | 类型     | 默认值 | 说明                 |
+| ------------- | -------- | ------ | -------------------- |
+| `maxRetries`  | `number` | `3`    | 最大重试次数         |
+| `baseDelayMs` | `number` | `500`  | 初始退避延迟（毫秒） |
+| `maxDelayMs`  | `number` | `8000` | 最大退避延迟（毫秒） |
 
 ### RateLimitConfig
 
-| 参数 | 类型 | 默认值 | 说明 |
-|------|------|--------|------|
-| `maxConcurrent` | `number` | `1` | 最大并发请求数 |
-| `minDelayMs` | `number` | `1000` | 两次请求间最小间隔（毫秒） |
+| 参数            | 类型     | 默认值 | 说明                       |
+| --------------- | -------- | ------ | -------------------------- |
+| `maxConcurrent` | `number` | `1`    | 最大并发请求数             |
+| `minDelayMs`    | `number` | `1000` | 两次请求间最小间隔（毫秒） |
 
 ---
 
@@ -113,40 +113,40 @@ const client = createClient(config?: CreateClientConfig): TrendSearchClient
 
 以下参数在多个端点中通用：
 
-| 参数 | 类型 | 说明 |
-|------|------|------|
-| `keywords` | `string[]` | 搜索关键词数组，至少 1 个 |
-| `geo` | `string \| string[]` | 地区代码（如 `"US"`、`"CN"`）；省略则为全球 |
-| `time` | `string` | 时间范围，见下表 |
-| `category` | `number` | 类别 ID（整数，`0` 表示全部） |
-| `property` | `GoogleProperty` | 搜索属性 |
-| `hl` | `string` | 覆盖客户端语言设置 |
-| `tz` | `number` | 覆盖客户端时区设置 |
+| 参数       | 类型                 | 说明                                        |
+| ---------- | -------------------- | ------------------------------------------- |
+| `keywords` | `string[]`           | 搜索关键词数组，至少 1 个                   |
+| `geo`      | `string \| string[]` | 地区代码（如 `"US"`、`"CN"`）；省略则为全球 |
+| `time`     | `string`             | 时间范围，见下表                            |
+| `category` | `number`             | 类别 ID（整数，`0` 表示全部）               |
+| `property` | `GoogleProperty`     | 搜索属性                                    |
+| `hl`       | `string`             | 覆盖客户端语言设置                          |
+| `tz`       | `number`             | 覆盖客户端时区设置                          |
 
 ### 时间范围格式
 
-| 值 | 含义 |
-|----|------|
-| `"now 1-H"` | 过去 1 小时 |
-| `"now 4-H"` | 过去 4 小时 |
-| `"now 1-d"` | 过去 1 天 |
-| `"now 7-d"` | 过去 7 天 |
-| `"today 1-m"` | 过去 1 个月 |
-| `"today 3-m"` | 过去 3 个月（默认） |
-| `"today 12-m"` | 过去 12 个月 |
-| `"today 5-y"` | 过去 5 年 |
-| `"all"` | 所有时间 |
-| `"2020-01-01 2021-01-01"` | 自定义日期范围 |
+| 值                        | 含义                |
+| ------------------------- | ------------------- |
+| `"now 1-H"`               | 过去 1 小时         |
+| `"now 4-H"`               | 过去 4 小时         |
+| `"now 1-d"`               | 过去 1 天           |
+| `"now 7-d"`               | 过去 7 天           |
+| `"today 1-m"`             | 过去 1 个月         |
+| `"today 3-m"`             | 过去 3 个月（默认） |
+| `"today 12-m"`            | 过去 12 个月        |
+| `"today 5-y"`             | 过去 5 年           |
+| `"all"`                   | 所有时间            |
+| `"2020-01-01 2021-01-01"` | 自定义日期范围      |
 
 ### GoogleProperty
 
-| 值 | 含义 |
-|----|------|
-| `""` | 网页搜索（默认） |
-| `"images"` | 图片搜索 |
-| `"news"` | 新闻搜索 |
-| `"youtube"` | YouTube |
-| `"froogle"` | Google 购物 |
+| 值          | 含义             |
+| ----------- | ---------------- |
+| `""`        | 网页搜索（默认） |
+| `"images"`  | 图片搜索         |
+| `"news"`    | 新闻搜索         |
+| `"youtube"` | YouTube          |
+| `"froogle"` | Google 购物      |
 
 ---
 
@@ -164,8 +164,8 @@ interface EndpointDebugOptions {
 
 ```ts
 interface EndpointOutput<TData, TRaw = unknown> {
-  data: TData;   // 解析并 Zod 验证后的数据
-  raw?: TRaw;    // 原始响应（仅在 debugRawResponse: true 时存在）
+  data: TData; // 解析并 Zod 验证后的数据
+  raw?: TRaw; // 原始响应（仅在 debugRawResponse: true 时存在）
 }
 ```
 
@@ -183,19 +183,19 @@ client.autocomplete(input, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `keyword` | `string` | 是 | 搜索关键词 |
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数      | 类型     | 必填 | 说明       |
+| --------- | -------- | ---- | ---------- |
+| `keyword` | `string` | 是   | 搜索关键词 |
+| `hl`      | `string` | 否   | 语言       |
+| `tz`      | `number` | 否   | 时区       |
 
 **返回值** `Promise<EndpointOutput<{ topics: Topic[] }>>`
 
 ```ts
 interface Topic {
-  mid: string;    // Google 知识图谱 ID
-  title: string;  // 主题名称
-  type: string;   // 主题类型（如 "Programming language"）
+  mid: string; // Google 知识图谱 ID
+  title: string; // 主题名称
+  type: string; // 主题类型（如 "Programming language"）
 }
 ```
 
@@ -221,10 +221,12 @@ client.explore(input, options?)
 **返回值**
 
 ```ts
-Promise<EndpointOutput<{
-  widgets: ExploreWidget[];
-  comparisonItem: { keyword: string; geo?: string; time: string }[];
-}>>
+Promise<
+  EndpointOutput<{
+    widgets: ExploreWidget[];
+    comparisonItem: { keyword: string; geo?: string; time: string }[];
+  }>
+>;
 ```
 
 ---
@@ -243,13 +245,13 @@ client.interestOverTime(input, options?)
 
 ```ts
 interface InterestOverTimePoint {
-  time: string;                          // Unix 时间戳字符串
-  formattedTime?: string;                // 格式化时间（如 "Jan 1, 2024"）
-  formattedAxisTime?: string;            // 坐标轴标签
-  value: number[];                       // 各关键词兴趣值（0-100），与 keywords 顺序对应
-  formattedValue?: (string | number)[];  // 格式化值
-  hasData?: boolean[];                   // 是否有数据
-  isPartial?: boolean | string;          // 是否为不完整数据（当前时间段）
+  time: string; // Unix 时间戳字符串
+  formattedTime?: string; // 格式化时间（如 "Jan 1, 2024"）
+  formattedAxisTime?: string; // 坐标轴标签
+  value: number[]; // 各关键词兴趣值（0-100），与 keywords 顺序对应
+  formattedValue?: (string | number)[]; // 格式化值
+  hasData?: boolean[]; // 是否有数据
+  isPartial?: boolean | string; // 是否为不完整数据（当前时间段）
 }
 ```
 
@@ -279,36 +281,36 @@ client.interestByRegion(input, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `keywords` | `string[]` | 是 | 关键词 |
-| `geo` | `string \| string[]` | 否 | 地区 |
-| `time` | `string` | 否 | 时间范围 |
-| `category` | `number` | 否 | 类别 ID |
-| `property` | `GoogleProperty` | 否 | 搜索属性 |
-| `resolution` | `"COUNTRY" \| "REGION" \| "CITY" \| "DMA"` | 否 | 地图分辨率 |
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数         | 类型                                       | 必填 | 说明       |
+| ------------ | ------------------------------------------ | ---- | ---------- |
+| `keywords`   | `string[]`                                 | 是   | 关键词     |
+| `geo`        | `string \| string[]`                       | 否   | 地区       |
+| `time`       | `string`                                   | 否   | 时间范围   |
+| `category`   | `number`                                   | 否   | 类别 ID    |
+| `property`   | `GoogleProperty`                           | 否   | 搜索属性   |
+| `resolution` | `"COUNTRY" \| "REGION" \| "CITY" \| "DMA"` | 否   | 地图分辨率 |
+| `hl`         | `string`                                   | 否   | 语言       |
+| `tz`         | `number`                                   | 否   | 时区       |
 
 **Resolution 说明**
 
-| 值 | 含义 |
-|----|------|
+| 值          | 含义                   |
+| ----------- | ---------------------- |
 | `"COUNTRY"` | 按国家（默认全球范围） |
-| `"REGION"` | 按省/州 |
-| `"CITY"` | 按城市 |
-| `"DMA"` | 按美国市场区域（DMA） |
+| `"REGION"`  | 按省/州                |
+| `"CITY"`    | 按城市                 |
+| `"DMA"`     | 按美国市场区域（DMA）  |
 
 **返回值** `Promise<EndpointOutput<{ regions: GeoMapData[] }>>`
 
 ```ts
 interface GeoMapData {
-  geoCode?: string;           // 地区代码（如 "US-CA"）
-  geoName: string;            // 地区名称（如 "California"）
-  value: number[];            // 各关键词兴趣值（0-100）
-  formattedValue?: string[];  // 格式化值
-  hasData?: boolean[];        // 是否有数据
-  maxValueIndex?: number;     // 兴趣值最高的关键词索引
+  geoCode?: string; // 地区代码（如 "US-CA"）
+  geoName: string; // 地区名称（如 "California"）
+  value: number[]; // 各关键词兴趣值（0-100）
+  formattedValue?: string[]; // 格式化值
+  hasData?: boolean[]; // 是否有数据
+  maxValueIndex?: number; // 兴趣值最高的关键词索引
   coordinates?: { lat: number; lng: number };
 }
 ```
@@ -343,11 +345,11 @@ client.relatedQueries(input, options?)
 
 ```ts
 interface RelatedQueryItem {
-  query: string;           // 相关查询词
-  value: number;           // top: 0-100 热度；rising: 增长百分比
+  query: string; // 相关查询词
+  value: number; // top: 0-100 热度；rising: 增长百分比
   formattedValue?: string; // 格式化值（如 "+850%"、"Breakout"）
   hasData?: boolean;
-  link?: string;           // Google Trends 详情链接
+  link?: string; // Google Trends 详情链接
 }
 ```
 
@@ -359,8 +361,14 @@ const result = await client.relatedQueries({
   geo: "US",
 });
 
-console.log("热门:", result.data.top.slice(0, 3).map((q) => q.query));
-console.log("飙升:", result.data.rising.slice(0, 3).map((q) => q.query));
+console.log(
+  "热门:",
+  result.data.top.slice(0, 3).map((q) => q.query)
+);
+console.log(
+  "飙升:",
+  result.data.rising.slice(0, 3).map((q) => q.query)
+);
 ```
 
 ---
@@ -380,9 +388,9 @@ client.relatedTopics(input, options?)
 ```ts
 interface RelatedTopicItem {
   topic: {
-    mid: string;    // 知识图谱 ID
-    title: string;  // 主题名称
-    type: string;   // 主题类型
+    mid: string; // 知识图谱 ID
+    title: string; // 主题名称
+    type: string; // 主题类型
   };
   value: number | string;
   formattedValue?: string;
@@ -403,26 +411,28 @@ client.dailyTrends(input, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `geo` | `string` | 是 | 地区代码（如 `"US"`） |
-| `category` | `string \| number` | 否 | 类别 |
-| `date` | `string \| Date` | 否 | 日期（ISO 格式），默认今日 |
-| `ns` | `number` | 否 | 新闻服务 ID |
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数       | 类型               | 必填 | 说明                       |
+| ---------- | ------------------ | ---- | -------------------------- |
+| `geo`      | `string`           | 是   | 地区代码（如 `"US"`）      |
+| `category` | `string \| number` | 否   | 类别                       |
+| `date`     | `string \| Date`   | 否   | 日期（ISO 格式），默认今日 |
+| `ns`       | `number`           | 否   | 新闻服务 ID                |
+| `hl`       | `string`           | 否   | 语言                       |
+| `tz`       | `number`           | 否   | 时区                       |
 
 **返回值**
 
 ```ts
-Promise<EndpointOutput<{
-  days: TrendingSearchDay[];   // 按日分组
-  trends: DailyTrendItem[];    // 扁平化条目（第一天数据）
-}>>
+Promise<
+  EndpointOutput<{
+    days: TrendingSearchDay[]; // 按日分组
+    trends: DailyTrendItem[]; // 扁平化条目（第一天数据）
+  }>
+>;
 
 interface DailyTrendItem {
-  title: { query: string };     // 热搜词
-  formattedTraffic?: string;    // 搜索量（如 "200K+"）
+  title: { query: string }; // 热搜词
+  formattedTraffic?: string; // 搜索量（如 "200K+"）
   relatedQueries?: string[];
   image?: {
     newsUrl?: string;
@@ -461,17 +471,17 @@ client.realTimeTrends(input, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `geo` | `string` | 是 | 地区代码 |
-| `category` | `string \| number` | 否 | 类别 |
-| `fi` | `number` | 否 | 内部过滤参数 |
-| `fs` | `number` | 否 | 内部过滤参数 |
-| `ri` | `number` | 否 | 结果数量参数 |
-| `rs` | `number` | 否 | 结果数量参数 |
-| `sort` | `number` | 否 | 排序方式 |
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数       | 类型               | 必填 | 说明         |
+| ---------- | ------------------ | ---- | ------------ |
+| `geo`      | `string`           | 是   | 地区代码     |
+| `category` | `string \| number` | 否   | 类别         |
+| `fi`       | `number`           | 否   | 内部过滤参数 |
+| `fs`       | `number`           | 否   | 内部过滤参数 |
+| `ri`       | `number`           | 否   | 结果数量参数 |
+| `rs`       | `number`           | 否   | 结果数量参数 |
+| `sort`     | `number`           | 否   | 排序方式     |
+| `hl`       | `string`           | 否   | 语言         |
+| `tz`       | `number`           | 否   | 时区         |
 
 **返回值** `Promise<EndpointOutput<{ stories: Record<string, unknown>[] }>>`
 
@@ -489,22 +499,22 @@ client.trendingNow(input?, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-|------|------|------|--------|------|
-| `geo` | `string` | 否 | `"US"` | 地区代码 |
-| `language` | `string` | 否 | `"en"` | 语言代码 |
-| `hours` | `4 \| 24 \| 48 \| 168` | 否 | `24` | 时间窗口（小时） |
+| 参数       | 类型                   | 必填 | 默认值 | 说明             |
+| ---------- | ---------------------- | ---- | ------ | ---------------- |
+| `geo`      | `string`               | 否   | `"US"` | 地区代码         |
+| `language` | `string`               | 否   | `"en"` | 语言代码         |
+| `hours`    | `4 \| 24 \| 48 \| 168` | 否   | `24`   | 时间窗口（小时） |
 
 **返回值** `Promise<EndpointOutput<{ items: TrendingNowItem[] }>>`
 
 ```ts
 interface TrendingNowItem {
-  keyword: string;                            // 热门关键词
-  traffic: number;                            // 搜索量
-  trafficGrowthRate: number;                  // 增长率
-  activeTime: string;                         // 活跃时间
-  relatedKeywords: string[];                  // 相关关键词
-  articleKeys: [number, string, string][];    // 文章标识符（供 trendingArticles 使用）
+  keyword: string; // 热门关键词
+  traffic: number; // 搜索量
+  trafficGrowthRate: number; // 增长率
+  activeTime: string; // 活跃时间
+  relatedKeywords: string[]; // 相关关键词
+  articleKeys: [number, string, string][]; // 文章标识符（供 trendingArticles 使用）
 }
 ```
 
@@ -530,10 +540,10 @@ client.trendingArticles(input, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `articleKeys` | `[number, string, string][]` | 是 | 从 `TrendingNowItem.articleKeys` 获取 |
-| `articleCount` | `number` | 否 | 每个 key 返回的文章数量 |
+| 参数           | 类型                         | 必填 | 说明                                  |
+| -------------- | ---------------------------- | ---- | ------------------------------------- |
+| `articleKeys`  | `[number, string, string][]` | 是   | 从 `TrendingNowItem.articleKeys` 获取 |
+| `articleCount` | `number`                     | 否   | 每个 key 返回的文章数量               |
 
 **返回值** `Promise<EndpointOutput<{ articles: TrendingArticleItem[] }>>`
 
@@ -541,7 +551,9 @@ client.trendingArticles(input, options?)
 
 ```ts
 const trending = await client.trendingNow({ geo: "US" });
-const keys = trending.data.items.flatMap((item) => item.articleKeys).slice(0, 10);
+const keys = trending.data.items
+  .flatMap((item) => item.articleKeys)
+  .slice(0, 10);
 const articles = await client.trendingArticles({ articleKeys: keys });
 ```
 
@@ -579,9 +591,9 @@ import { experimental } from "trendsearch";
 client.experimental.geoPicker(input?, options?)
 ```
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `hl` | `string` | 否 | 语言 |
+| 参数 | 类型     | 必填 | 说明 |
+| ---- | -------- | ---- | ---- |
+| `hl` | `string` | 否   | 语言 |
 
 **返回值** `Promise<EndpointOutput<{ items: GeoPickerResponse }>>`
 
@@ -595,9 +607,9 @@ client.experimental.geoPicker(input?, options?)
 client.experimental.categoryPicker(input?, options?)
 ```
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `hl` | `string` | 否 | 语言 |
+| 参数 | 类型     | 必填 | 说明 |
+| ---- | -------- | ---- | ---- |
+| `hl` | `string` | 否   | 语言 |
 
 **返回值** `Promise<EndpointOutput<{ items: CategoryPickerResponse }>>`
 
@@ -613,13 +625,13 @@ client.experimental.topCharts(input?, options?)
 
 **输入参数**
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `date` | `number \| string \| Date` | 否 | 年份整数（如 `2023`）、ISO 字符串或 Date |
-| `geo` | `string` | 否 | 地区代码 |
-| `isMobile` | `boolean` | 否 | 是否返回移动端格式 |
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数       | 类型                       | 必填 | 说明                                     |
+| ---------- | -------------------------- | ---- | ---------------------------------------- |
+| `date`     | `number \| string \| Date` | 否   | 年份整数（如 `2023`）、ISO 字符串或 Date |
+| `geo`      | `string`                   | 否   | 地区代码                                 |
+| `isMobile` | `boolean`                  | 否   | 是否返回移动端格式                       |
+| `hl`       | `string`                   | 否   | 语言                                     |
+| `tz`       | `number`                   | 否   | 时区                                     |
 
 **返回值** `Promise<EndpointOutput<{ charts: TopChart[]; items: TopChartListItem[] }>>`
 
@@ -667,13 +679,13 @@ client.experimental.interestOverTimeMultirange(input, options?)
 
 以下端点均返回 CSV 格式原始数据，适用于数据导出场景：
 
-| 端点 | 说明 |
-|------|------|
-| `experimental.interestOverTimeCsv(input)` | 随时间变化的兴趣数据（CSV） |
-| `experimental.interestOverTimeMultirangeCsv(input)` | 多时间段兴趣数据（CSV） |
-| `experimental.interestByRegionCsv(input)` | 按地区兴趣数据（CSV，支持 `resolution`） |
-| `experimental.relatedQueriesCsv(input)` | 相关查询词数据（CSV） |
-| `experimental.relatedTopicsCsv(input)` | 相关主题数据（CSV） |
+| 端点                                                | 说明                                     |
+| --------------------------------------------------- | ---------------------------------------- |
+| `experimental.interestOverTimeCsv(input)`           | 随时间变化的兴趣数据（CSV）              |
+| `experimental.interestOverTimeMultirangeCsv(input)` | 多时间段兴趣数据（CSV）                  |
+| `experimental.interestByRegionCsv(input)`           | 按地区兴趣数据（CSV，支持 `resolution`） |
+| `experimental.relatedQueriesCsv(input)`             | 相关查询词数据（CSV）                    |
+| `experimental.relatedTopicsCsv(input)`              | 相关主题数据（CSV）                      |
 
 所有 CSV 端点返回：`Promise<EndpointOutput<{ csv: string; contentType?: string }>>`
 
@@ -701,10 +713,10 @@ writeFileSync("trends.csv", result.data.csv, "utf-8");
 client.experimental.hotTrendsLegacy(input?, options?)
 ```
 
-| 参数 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `hl` | `string` | 否 | 语言 |
-| `tz` | `number` | 否 | 时区 |
+| 参数 | 类型     | 必填 | 说明 |
+| ---- | -------- | ---- | ---- |
+| `hl` | `string` | 否   | 语言 |
+| `tz` | `number` | 否   | 时区 |
 
 **返回值** `Promise<EndpointOutput<{ payload: HotTrendsLegacyResponse }>>`
 
@@ -738,9 +750,12 @@ const client = createClient({
 拦截并修改每次请求的 URL 和 init 参数，用于实现代理：
 
 ```ts
-type ProxyHook = (
-  input: { url: string; init: RequestInit }
-) => { url?: string; init?: RequestInit } | Promise<{ url?: string; init?: RequestInit }>;
+type ProxyHook = (input: {
+  url: string;
+  init: RequestInit;
+}) =>
+  | { url?: string; init?: RequestInit }
+  | Promise<{ url?: string; init?: RequestInit }>;
 ```
 
 **示例**
@@ -771,13 +786,13 @@ import {
 } from "trendsearch";
 ```
 
-| 错误类 | 触发场景 |
-|--------|----------|
-| `TrendSearchError` | 所有 trendsearch 错误的基类 |
-| `TransportError` | 网络错误、超时、fetch 失败 |
-| `RateLimitError` | 超出速率限制（HTTP 429） |
-| `SchemaValidationError` | 响应数据不符合 Zod schema 定义 |
-| `UnexpectedResponseError` | 非预期的 HTTP 状态码或响应格式 |
+| 错误类                     | 触发场景                           |
+| -------------------------- | ---------------------------------- |
+| `TrendSearchError`         | 所有 trendsearch 错误的基类        |
+| `TransportError`           | 网络错误、超时、fetch 失败         |
+| `RateLimitError`           | 超出速率限制（HTTP 429）           |
+| `SchemaValidationError`    | 响应数据不符合 Zod schema 定义     |
+| `UnexpectedResponseError`  | 非预期的 HTTP 状态码或响应格式     |
 | `EndpointUnavailableError` | 端点不可用（如必要 widget 未找到） |
 
 **错误处理示例**
@@ -791,7 +806,10 @@ import {
 } from "trendsearch";
 
 try {
-  const result = await interestOverTime({ keywords: ["typescript"], geo: "US" });
+  const result = await interestOverTime({
+    keywords: ["typescript"],
+    geo: "US",
+  });
   console.log(result.data.timeline);
 } catch (error) {
   if (error instanceof RateLimitError) {
@@ -887,5 +905,8 @@ const queries = await client.relatedQueries({
 
 console.log("时间线数据点数:", timeline.data.timeline.length);
 console.log("地区数:", regions.data.regions.length);
-console.log("热门相关查询:", queries.data.top.slice(0, 5).map((q) => q.query));
+console.log(
+  "热门相关查询:",
+  queries.data.top.slice(0, 5).map((q) => q.query)
+);
 ```
