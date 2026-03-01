@@ -1,5 +1,5 @@
 {
-  "name": "trendsearch",
+  "name": "@hz/trends",
   "version": "0.1.0",
   "description": "Google Trends API fetching library for Node.js and Bun.",
   "keywords": [
