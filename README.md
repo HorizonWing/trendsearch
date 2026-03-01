@@ -211,6 +211,8 @@ Supported env vars include:
 - `TRENDSEARCH_RETRY_MAX_DELAY_MS`
 - `TRENDSEARCH_MAX_CONCURRENT`
 - `TRENDSEARCH_MIN_DELAY_MS`
+- `TRENDSEARCH_ADAPTIVE_BASE_COOLDOWN_MS`
+- `TRENDSEARCH_ADAPTIVE_MAX_COOLDOWN_MS`
 - `TRENDSEARCH_USER_AGENT`
 - `TRENDSEARCH_CONFIG_DIR` (override where persisted CLI config is stored)
 
@@ -277,11 +279,28 @@ const client = createClient({
     maxConcurrent: 1,
     minDelayMs: 5_000,
   },
+  adaptiveRateLimit: {
+    baseCooldownMs: 5_000,
+    maxCooldownMs: 300_000,
+  },
   userAgent:
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
   cookieStore: new MemoryCookieStore(),
 });
 ```
+
+For repeated `relatedQueries` runs, prefer the built-in runner script. It uses
+one long-lived client session, serial execution, adaptive cooldown, and optional
+local cache:
+
+```bash
+bun run related-queries:runner -- typescript \
+  --geo US \
+  --time "now 7-d" \
+  --out ./tmp/related-queries.json
+```
+
+Runner cache is disabled by default. Enable it explicitly with `--cache`.
 
 ## 🧰 Client Configuration
 
@@ -304,6 +323,18 @@ const client = createClient({
     maxConcurrent: 1,
     minDelayMs: 1_000,
   },
+  adaptiveRateLimit: {
+    baseCooldownMs: 5_000,
+    maxCooldownMs: 300_000,
+  },
+  responseCache: {
+    enabled: true,
+    ttlMs: 60_000,
+    endpoints: ["relatedQueries"],
+    ttlByEndpoint: {
+      relatedQueries: 120_000,
+    },
+  },
   userAgent:
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36",
   cookieStore: new MemoryCookieStore(),
@@ -322,6 +353,10 @@ const client = createClient({
 - `retries.maxDelayMs`: `8000`
 - `rateLimit.maxConcurrent`: `1`
 - `rateLimit.minDelayMs`: `1000`
+- `adaptiveRateLimit.baseCooldownMs`: `5000`
+- `adaptiveRateLimit.maxCooldownMs`: `300000`
+- `responseCache.enabled`: `false`
+- `responseCache.ttlMs`: `300000`
 
 ## 🧪 Request/Response Pattern
 

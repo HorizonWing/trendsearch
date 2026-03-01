@@ -50,6 +50,7 @@
     "test:live": "TRENDSEARCH_LIVE=1 bun test ./tests/live",
     "test:all": "bun run test:unit && bun run test:cli && bun run test:contracts",
     "fixtures:record": "bun ./scripts/record-fixtures.ts",
+    "related-queries:runner": "bun ./scripts/related-queries-runner.ts",
     "lint": "bun ultracite check",
     "format": "bun ultracite fix",
     "typecheck": "tsc --project tsconfig.typecheck.json",

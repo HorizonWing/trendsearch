@@ -115,6 +115,18 @@ export const globalOptions: CliOptionDefinition[] = [
     type: "number",
   },
   {
+    key: "adaptiveBaseCooldownMs",
+    flags: "--adaptive-base-cooldown-ms <ms>",
+    description: "Base cooldown applied after 429 without Retry-After.",
+    type: "number",
+  },
+  {
+    key: "adaptiveMaxCooldownMs",
+    flags: "--adaptive-max-cooldown-ms <ms>",
+    description: "Maximum adaptive cooldown after repeated 429 responses.",
+    type: "number",
+  },
+  {
     key: "userAgent",
     flags: "--user-agent <ua>",
     description: "Custom user-agent header value.",

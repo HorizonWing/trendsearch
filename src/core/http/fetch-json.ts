@@ -4,7 +4,6 @@ import type {
   RequestConfig,
   RetryConfig,
 } from "../../client/public-types";
-import type { RateLimiter } from "../resilience/rate-limiter";
 
 import { TrendSearchError, RateLimitError, TransportError } from "../../errors";
 import { runWithRetry } from "../resilience/retry";
@@ -20,7 +19,15 @@ export interface FetchRuntime {
   cookieStore?: CookieStore;
   proxyHook?: ProxyHook;
   retryConfig: Required<RetryConfig>;
-  rateLimiter: RateLimiter;
+  rateLimiter: {
+    schedule: <T>(task: () => Promise<T>) => Promise<T>;
+  };
+  adaptiveRateLimit: {
+    blockedUntilMs: number;
+    consecutive429: number;
+    baseCooldownMs?: number;
+    maxCooldownMs?: number;
+  };
 }
 
 const toRetryDecision = (error: unknown) => {
@@ -82,6 +89,37 @@ const parseRetryAfterMs = (value: string | null): number | undefined => {
   return undefined;
 };
 
+const sleep = async (ms: number): Promise<void> => {
+  await new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
+const waitForAdaptiveCooldown = async (
+  state: FetchRuntime["adaptiveRateLimit"]
+): Promise<void> => {
+  const waitMs = Math.max(0, state.blockedUntilMs - Date.now());
+  if (waitMs <= 0) {
+    return;
+  }
+
+  await sleep(waitMs);
+};
+
+const fallbackCooldownMs = (
+  state: FetchRuntime["adaptiveRateLimit"],
+  consecutive429: number
+): number => {
+  const baseCooldownMs = Math.max(1, state.baseCooldownMs ?? 5000);
+  const maxCooldownMs = Math.max(
+    baseCooldownMs,
+    state.maxCooldownMs ?? 300_000
+  );
+  const exponent = Math.max(0, Math.min(6, consecutive429 - 1));
+  const backoff = baseCooldownMs * 2 ** exponent;
+  return Math.min(maxCooldownMs, backoff);
+};
+
 const buildRequest = async (args: {
   runtime: FetchRuntime;
   request: RequestConfig;
@@ -133,6 +171,8 @@ const requestOnce = async (args: {
   runtime: FetchRuntime;
   request: RequestConfig;
 }): Promise<string> => {
+  await waitForAdaptiveCooldown(args.runtime.adaptiveRateLimit);
+
   const { url, init } = await buildRequest(args);
 
   const controller = new AbortController();
@@ -158,16 +198,31 @@ const requestOnce = async (args: {
           response.headers.get("retry-after")
         );
 
+        const nextConsecutive429 =
+          args.runtime.adaptiveRateLimit.consecutive429 + 1;
+        args.runtime.adaptiveRateLimit.consecutive429 = nextConsecutive429;
+
+        const adaptiveCooldownMs =
+          retryAfterMs ??
+          fallbackCooldownMs(
+            args.runtime.adaptiveRateLimit,
+            nextConsecutive429
+          );
+        args.runtime.adaptiveRateLimit.blockedUntilMs = Math.max(
+          args.runtime.adaptiveRateLimit.blockedUntilMs,
+          Date.now() + adaptiveCooldownMs
+        );
+
         const retryHint =
           typeof retryAfterMs === "number"
             ? ` Upstream asked to retry after ~${Math.ceil(retryAfterMs / 1000)}s.`
-            : "";
+            : ` Applying local cooldown of ~${Math.ceil(adaptiveCooldownMs / 1000)}s.`;
 
         throw new RateLimitError({
           message: `Rate limited on ${args.request.endpoint} (HTTP 429). Increase delay/backoff and reduce request concurrency.${retryHint}`,
           status: response.status,
           url,
-          retryAfterMs,
+          retryAfterMs: adaptiveCooldownMs,
         });
       }
 
@@ -184,6 +239,7 @@ const requestOnce = async (args: {
       });
     }
 
+    args.runtime.adaptiveRateLimit.consecutive429 = 0;
     return text;
   } catch (error) {
     if (error instanceof TrendSearchError) {
@@ -204,13 +260,12 @@ export const fetchText = async (args: {
   runtime: FetchRuntime;
   request: RequestConfig;
 }): Promise<string> =>
-  args.runtime.rateLimiter.schedule(() =>
-    runWithRetry({
-      task: () => requestOnce(args),
-      policy: args.runtime.retryConfig,
-      shouldRetry: toRetryDecision,
-    })
-  );
+  runWithRetry({
+    // Rate-limit every retry attempt, not just the first call.
+    task: () => args.runtime.rateLimiter.schedule(() => requestOnce(args)),
+    policy: args.runtime.retryConfig,
+    shouldRetry: toRetryDecision,
+  });
 
 export const fetchGoogleJson = async (args: {
   runtime: FetchRuntime;

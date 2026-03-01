@@ -1,0 +1,216 @@
+{
+  "{\"keyword\":\"typescript\",\"geo\":\"US\",\"time\":\"now 7-d\"}": {
+    "fetchedAtMs": 1772364048757,
+    "data": {
+      "top": [
+        {
+          "query": "what is typescript",
+          "value": 100,
+          "formattedValue": "100",
+          "hasData": true,
+          "link": "/trends/explore?q=what+is+typescript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "react",
+          "value": 85,
+          "formattedValue": "85",
+          "hasData": true,
+          "link": "/trends/explore?q=react&date=now+7-d&geo=US"
+        },
+        {
+          "query": "react typescript",
+          "value": 84,
+          "formattedValue": "84",
+          "hasData": true,
+          "link": "/trends/explore?q=react+typescript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "javascript",
+          "value": 60,
+          "formattedValue": "60",
+          "hasData": true,
+          "link": "/trends/explore?q=javascript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript function",
+          "value": 39,
+          "formattedValue": "39",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+function&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript types",
+          "value": 39,
+          "formattedValue": "39",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+types&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript npm",
+          "value": 36,
+          "formattedValue": "36",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+npm&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript array",
+          "value": 36,
+          "formattedValue": "36",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+array&date=now+7-d&geo=US"
+        },
+        {
+          "query": "npm",
+          "value": 36,
+          "formattedValue": "36",
+          "hasData": true,
+          "link": "/trends/explore?q=npm&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript github",
+          "value": 27,
+          "formattedValue": "27",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+github&date=now+7-d&geo=US"
+        },
+        {
+          "query": "github",
+          "value": 27,
+          "formattedValue": "27",
+          "hasData": true,
+          "link": "/trends/explore?q=github&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript interface",
+          "value": 26,
+          "formattedValue": "26",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+interface&date=now+7-d&geo=US"
+        },
+        {
+          "query": "node",
+          "value": 25,
+          "formattedValue": "25",
+          "hasData": true,
+          "link": "/trends/explore?q=node&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript set",
+          "value": 22,
+          "formattedValue": "22",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+set&date=now+7-d&geo=US"
+        },
+        {
+          "query": "angular typescript",
+          "value": 20,
+          "formattedValue": "20",
+          "hasData": true,
+          "link": "/trends/explore?q=angular+typescript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript map",
+          "value": 18,
+          "formattedValue": "18",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+map&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript documentation",
+          "value": 18,
+          "formattedValue": "18",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+documentation&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript online",
+          "value": 17,
+          "formattedValue": "17",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+online&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript enum",
+          "value": 15,
+          "formattedValue": "15",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+enum&date=now+7-d&geo=US"
+        },
+        {
+          "query": "vite",
+          "value": 15,
+          "formattedValue": "15",
+          "hasData": true,
+          "link": "/trends/explore?q=vite&date=now+7-d&geo=US"
+        },
+        {
+          "query": "install typescript",
+          "value": 15,
+          "formattedValue": "15",
+          "hasData": true,
+          "link": "/trends/explore?q=install+typescript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "node.js",
+          "value": 14,
+          "formattedValue": "14",
+          "hasData": true,
+          "link": "/trends/explore?q=node.js&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript go",
+          "value": 13,
+          "formattedValue": "13",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+go&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript eslint",
+          "value": 12,
+          "formattedValue": "12",
+          "hasData": true,
+          "link": "/trends/explore?q=typescript+eslint&date=now+7-d&geo=US"
+        },
+        {
+          "query": "javascript vs typescript",
+          "value": 12,
+          "formattedValue": "12",
+          "hasData": true,
+          "link": "/trends/explore?q=javascript+vs+typescript&date=now+7-d&geo=US"
+        }
+      ],
+      "rising": [
+        {
+          "query": "best tacos in los angeles",
+          "value": 3750,
+          "formattedValue": "+3,750%",
+          "link": "/trends/explore?q=best+tacos+in+los+angeles&date=now+7-d&geo=US"
+        },
+        {
+          "query": "teh tarik near me",
+          "value": 3050,
+          "formattedValue": "+3,050%",
+          "link": "/trends/explore?q=teh+tarik+near+me&date=now+7-d&geo=US"
+        },
+        {
+          "query": "?? in typescript",
+          "value": 200,
+          "formattedValue": "+200%",
+          "link": "/trends/explore?q=??+in+typescript&date=now+7-d&geo=US"
+        },
+        {
+          "query": "how to check tire tread",
+          "value": 170,
+          "formattedValue": "+170%",
+          "link": "/trends/explore?q=how+to+check+tire+tread&date=now+7-d&geo=US"
+        },
+        {
+          "query": "typescript 教程",
+          "value": 120,
+          "formattedValue": "+120%",
+          "link": "/trends/explore?q=typescript+%E6%95%99%E7%A8%8B&date=now+7-d&geo=US"
+        }
+      ]
+    }
+  }
+}

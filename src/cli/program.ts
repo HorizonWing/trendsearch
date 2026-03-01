@@ -114,6 +114,10 @@ const extractGlobalFlags = (
     options.retryMaxDelayMs as GlobalFlagOptions["retryMaxDelayMs"],
   maxConcurrent: options.maxConcurrent as GlobalFlagOptions["maxConcurrent"],
   minDelayMs: options.minDelayMs as GlobalFlagOptions["minDelayMs"],
+  adaptiveBaseCooldownMs:
+    options.adaptiveBaseCooldownMs as GlobalFlagOptions["adaptiveBaseCooldownMs"],
+  adaptiveMaxCooldownMs:
+    options.adaptiveMaxCooldownMs as GlobalFlagOptions["adaptiveMaxCooldownMs"],
   userAgent: options.userAgent as GlobalFlagOptions["userAgent"],
   input: options.input as GlobalFlagOptions["input"],
 });

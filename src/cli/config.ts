@@ -52,6 +52,8 @@ export interface GlobalFlagOptions {
   retryMaxDelayMs?: number;
   maxConcurrent?: number;
   minDelayMs?: number;
+  adaptiveBaseCooldownMs?: number;
+  adaptiveMaxCooldownMs?: number;
   userAgent?: string;
   input?: string;
 }
@@ -69,6 +71,8 @@ export interface ResolvedGlobalOptions {
   retryMaxDelayMs?: number;
   maxConcurrent?: number;
   minDelayMs?: number;
+  adaptiveBaseCooldownMs?: number;
+  adaptiveMaxCooldownMs?: number;
   userAgent?: string;
   input?: string;
 }
@@ -144,6 +148,12 @@ const readEnv = (
   retryMaxDelayMs: toNumberOrUndefined(env.TRENDSEARCH_RETRY_MAX_DELAY_MS),
   maxConcurrent: toNumberOrUndefined(env.TRENDSEARCH_MAX_CONCURRENT),
   minDelayMs: toNumberOrUndefined(env.TRENDSEARCH_MIN_DELAY_MS),
+  adaptiveBaseCooldownMs: toNumberOrUndefined(
+    env.TRENDSEARCH_ADAPTIVE_BASE_COOLDOWN_MS
+  ),
+  adaptiveMaxCooldownMs: toNumberOrUndefined(
+    env.TRENDSEARCH_ADAPTIVE_MAX_COOLDOWN_MS
+  ),
   userAgent: env.TRENDSEARCH_USER_AGENT,
 });
 
@@ -165,6 +175,12 @@ const readStored = (store: CliConfigStore): GlobalFlagOptions => ({
   retryMaxDelayMs: toNumberOrUndefined(store.get("retryMaxDelayMs")),
   maxConcurrent: toNumberOrUndefined(store.get("maxConcurrent")),
   minDelayMs: toNumberOrUndefined(store.get("minDelayMs")),
+  adaptiveBaseCooldownMs: toNumberOrUndefined(
+    store.get("adaptiveBaseCooldownMs")
+  ),
+  adaptiveMaxCooldownMs: toNumberOrUndefined(
+    store.get("adaptiveMaxCooldownMs")
+  ),
   userAgent:
     typeof store.get("userAgent") === "string"
       ? (store.get("userAgent") as string)
@@ -222,6 +238,16 @@ export const resolveGlobalOptions = (args: {
       env.minDelayMs,
       stored.minDelayMs
     ),
+    adaptiveBaseCooldownMs: pickFirst(
+      args.flags.adaptiveBaseCooldownMs,
+      env.adaptiveBaseCooldownMs,
+      stored.adaptiveBaseCooldownMs
+    ),
+    adaptiveMaxCooldownMs: pickFirst(
+      args.flags.adaptiveMaxCooldownMs,
+      env.adaptiveMaxCooldownMs,
+      stored.adaptiveMaxCooldownMs
+    ),
     userAgent: pickFirst(args.flags.userAgent, env.userAgent, stored.userAgent),
     input: args.flags.input,
   };
@@ -250,6 +276,14 @@ export const toCreateClientConfig = (
       ? {
           maxConcurrent: options.maxConcurrent,
           minDelayMs: options.minDelayMs,
+        }
+      : undefined,
+  adaptiveRateLimit:
+    options.adaptiveBaseCooldownMs !== undefined ||
+    options.adaptiveMaxCooldownMs !== undefined
+      ? {
+          baseCooldownMs: options.adaptiveBaseCooldownMs,
+          maxCooldownMs: options.adaptiveMaxCooldownMs,
         }
       : undefined,
 });

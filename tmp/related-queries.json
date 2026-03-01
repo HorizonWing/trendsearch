@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "generatedAt": "2026-03-01T11:24:57.122Z",
+    "durationMs": 26396,
+    "geo": "US",
+    "time": "now 7-d",
+    "keywords": [
+      "typescript"
+    ],
+    "success": 1,
+    "failed": 0,
+    "usedCache": false
+  },
+  "results": [
+    {
+      "keyword": "typescript",
+      "status": "ok",
+      "attempts": 1,
+      "topCount": 25,
+      "risingCount": 6,
+      "topPreview": [
+        {
+          "query": "what is typescript",
+          "value": 100
+        },
+        {
+          "query": "react typescript",
+          "value": 86
+        },
+        {
+          "query": "react",
+          "value": 79
+        },
+        {
+          "query": "javascript",
+          "value": 63
+        },
+        {
+          "query": "typescript function",
+          "value": 41
+        }
+      ],
+      "risingPreview": [
+        {
+          "query": "how to check tire tread",
+          "value": 400
+        },
+        {
+          "query": "teh tarik near me",
+          "value": 90
+        },
+        {
+          "query": "typescript cheat sheet",
+          "value": 70
+        },
+        {
+          "query": "typescript pick",
+          "value": 60
+        },
+        {
+          "query": "is typescript a programming language",
+          "value": 50
+        }
+      ]
+    }
+  ]
+}

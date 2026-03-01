@@ -45,7 +45,7 @@ export const runWithRetry = async <T>(args: {
         return;
       }
 
-      // Respect server-provided throttle windows to reduce repeat 429 responses.
+      // Respect explicit retry windows attached to rate-limit errors.
       const waitMs = Math.min(120_000, Math.max(0, error.retryAfterMs));
       await sleep(waitMs);
     },

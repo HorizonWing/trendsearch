@@ -56,6 +56,8 @@ describe("cli config precedence", () => {
         retryMaxDelayMs: 500,
         maxConcurrent: 2,
         minDelayMs: 250,
+        adaptiveBaseCooldownMs: 4000,
+        adaptiveMaxCooldownMs: 120_000,
         userAgent: "trendsearch-test",
       },
       env: {},
@@ -75,5 +77,7 @@ describe("cli config precedence", () => {
     expect(config.retries?.maxDelayMs).toBe(500);
     expect(config.rateLimit?.maxConcurrent).toBe(2);
     expect(config.rateLimit?.minDelayMs).toBe(250);
+    expect(config.adaptiveRateLimit?.baseCooldownMs).toBe(4000);
+    expect(config.adaptiveRateLimit?.maxCooldownMs).toBe(120_000);
   });
 });

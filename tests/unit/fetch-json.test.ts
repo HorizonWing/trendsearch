@@ -25,6 +25,12 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 2,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+        baseCooldownMs: 1,
+        maxCooldownMs: 2,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
@@ -43,6 +49,57 @@ describe("fetchGoogleJson", () => {
     expect(calls).toBe(2);
   });
 
+  it("applies rate limiting to each retry attempt", async () => {
+    let fetchCalls = 0;
+    let scheduleCalls = 0;
+    const responses = [
+      new Response("Too many requests", { status: 429 }),
+      new Response(')]}\'\n{"ok":true}', { status: 200 }),
+    ];
+
+    const runtime = {
+      baseUrl: "https://trends.google.com",
+      fetchFn: async () => {
+        fetchCalls += 1;
+        return responses[fetchCalls - 1] as Response;
+      },
+      timeoutMs: 1000,
+      retryConfig: {
+        maxRetries: 1,
+        baseDelayMs: 1,
+        maxDelayMs: 2,
+      },
+      rateLimiter: {
+        schedule: async <T>(task: () => Promise<T>) => {
+          scheduleCalls += 1;
+          return task();
+        },
+      },
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+        baseCooldownMs: 1,
+        maxCooldownMs: 2,
+      },
+      cookieStore: undefined,
+      proxyHook: undefined,
+      userAgent: undefined,
+    } as const;
+
+    const data = await fetchGoogleJson({
+      runtime,
+      request: {
+        endpoint: "test",
+        path: "/trends/api/example",
+        stripGooglePrefix: true,
+      },
+    });
+
+    expect(data).toEqual({ ok: true });
+    expect(fetchCalls).toBe(2);
+    expect(scheduleCalls).toBe(2);
+  });
+
   it("throws after retry exhaustion", async () => {
     const runtime = {
       baseUrl: "https://trends.google.com",
@@ -54,6 +111,12 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 1,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+        baseCooldownMs: 1,
+        maxCooldownMs: 2,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
@@ -87,6 +150,10 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 1,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
@@ -123,6 +190,10 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 1,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
@@ -144,6 +215,42 @@ describe("fetchGoogleJson", () => {
     });
   });
 
+  it("applies adaptive cooldown when 429 has no retry-after header", async () => {
+    const runtime = {
+      baseUrl: "https://trends.google.com",
+      fetchFn: async () => new Response("Too many requests", { status: 429 }),
+      timeoutMs: 1000,
+      retryConfig: {
+        maxRetries: 0,
+        baseDelayMs: 1,
+        maxDelayMs: 1,
+      },
+      rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+      },
+      cookieStore: undefined,
+      proxyHook: undefined,
+      userAgent: undefined,
+    } as const;
+
+    await expect(
+      fetchGoogleJson({
+        runtime,
+        request: {
+          endpoint: "test",
+          path: "/trends/api/example",
+          stripGooglePrefix: true,
+        },
+      })
+    ).rejects.toMatchObject({
+      code: "RATE_LIMIT_ERROR",
+      status: 429,
+      retryAfterMs: 5000,
+    });
+  });
+
   it("sets accept-language from hl query when header is missing", async () => {
     let capturedHeaders: Headers | undefined;
 
@@ -160,6 +267,10 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 1,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
@@ -196,6 +307,10 @@ describe("fetchGoogleJson", () => {
         maxDelayMs: 1,
       },
       rateLimiter: new RateLimiter({ maxConcurrent: 1, minDelayMs: 0 }),
+      adaptiveRateLimit: {
+        blockedUntilMs: 0,
+        consecutive429: 0,
+      },
       cookieStore: undefined,
       proxyHook: undefined,
       userAgent: undefined,
