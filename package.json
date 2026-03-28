@@ -85,7 +85,7 @@
     "oxfmt": "^0.28.0",
     "oxlint": "^1.43.0",
     "publint": "^0.3.15",
-    "tsdown": "^0.20.3",
+    "tsdown": "^0.21.7",
     "typescript": "^5.9.3",
     "ultracite": "7.1.5"
   },
